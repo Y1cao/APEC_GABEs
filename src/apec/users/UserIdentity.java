@@ -14,9 +14,9 @@ import apec.DatabaseConnection;
  */
 @SuppressWarnings("serial")
 public class UserIdentity implements Serializable{
-	private String username;
-	private String password;
-	private int isAdmin;
+	protected String username;
+	protected String password;
+	protected int isAdmin;
 	
 	public UserIdentity() {
 		

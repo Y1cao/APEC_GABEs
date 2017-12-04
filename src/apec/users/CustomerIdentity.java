@@ -12,7 +12,7 @@ import java.sql.Statement;
 import apec.DatabaseConnection;
 
 @SuppressWarnings("serial")
-public abstract class CustomerIdentity extends UserIdentity{
+public class CustomerIdentity extends UserIdentity{
 	private int customerID;
 	private String email;
 	private String first_name;
@@ -21,6 +21,15 @@ public abstract class CustomerIdentity extends UserIdentity{
 	
 	public CustomerIdentity() {
 		super();
+	}
+	
+	public CustomerIdentity(String username, String password, int customerID, String first_name, String last_name, String phone_number) {
+		this.username = username;
+		this.password = password;
+		this.customerID = customerID;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.phone_number = phone_number;
 	}
 	
 	protected void setCustomerIdentity(UserIdentity user) {
