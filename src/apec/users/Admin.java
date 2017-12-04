@@ -30,7 +30,7 @@ public class Admin extends UserIdentity{
 			return null;
         Connection con = DatabaseConnection.openDBConnection();
         ArrayList<CustomerIdentity> customers = new ArrayList<CustomerIdentity>();
-        try {;
+        try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user_identity u,customer c WHERE u.username=c.username AND isAdmin=0");
             while(rs.next()) {
@@ -94,3 +94,13 @@ public class Admin extends UserIdentity{
 		return updated;
 	}
 }
+
+/*
+ * customer id can use customer_id_seq.nextval
+ * 
+ * isAdmin value can just be set to 0, no way to create an admin unless manually done through db.
+ * 
+ * GetCustomers: is it necessary to have the user_identity table? customer table only shows customers. having the isAdmin=0 seems redundant.
+ * 
+ * getCustomers: Query should be a prepared one as well, possible that customer data could have sql injections
+ */
