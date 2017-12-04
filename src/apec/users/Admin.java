@@ -3,6 +3,7 @@ package apec.users;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -92,6 +93,55 @@ public class Admin extends UserIdentity{
 		}
 		DatabaseConnection.closeDBConnection();
 		return updated;
+	}
+	
+	/*
+	 * This method queries the database and gets all the item information and its selling price and commission earned
+	 * @return returns the resultset containing the data
+	 */
+	public ResultSet getSalesSummaryReport() {
+		Connection con = DatabaseConnection.openDBConnection();
+		PreparedStatement stmt;
+		ResultSet output = null;
+		try {
+			String query = "Select i.category, i.ItemID, i.item_name, Current_Winning_Bid_Func(i.ItemID) as Final_selling_price, Current_Winning_Bid_Func(I.ItemID)*.05 as commission\n" + 
+					"from Item i\n" + 
+					"where i.ENDDATE < SYSDATE\n" + 
+					"Group by i.category, i.ItemID, i.item_name, Current_Winning_Bid_Func(i.ItemID), Current_Winning_Bid_Func(I.ItemID)*.05\n" + 
+					"order by category, i.itemid";
+			stmt = con.prepareStatement(query);
+			output = stmt.executeQuery();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return output;
+		}
+		
+		return output;
+	}
+	
+	/*
+	 * This method queries the database and adds up all the final selling prices and commission earned for each item in each category
+	 * @return returns the result set containing the data
+	 */
+	public ResultSet getSalesSummaryTotals() {
+		Connection con = DatabaseConnection.openDBConnection();
+		PreparedStatement stmt;
+		ResultSet output = null;
+		try {
+			String query = "Select category, Sum(Current_winning_bid_func(i.itemID)) as final_selling_total, Sum(Current_winning_bid_func(i.itemID)*.05) as Commision_total\n" + 
+					"from item i\n" + 
+					"group by category\n" + 
+					"order by category;";
+			stmt = con.prepareStatement(query);
+			output = stmt.executeQuery();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return output;
+		}
+		
+		return output;
 	}
 }
 
