@@ -14,7 +14,7 @@ public class DatabaseConnection implements Serializable {
 	public static Connection openDBConnection() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
-			myConnection = DriverManager.getConnection("jdbc:oracle:thin:@//cscioraclesrv.ad.csbsju.edu:1521/csci.cscioraclesrv.ad.csbsju.edu","tweiss", "900217730");
+			myConnection = DriverManager.getConnection("jdbc:oracle:thin:@//cscioraclesrv.ad.csbsju.edu:1521/csci.cscioraclesrv.ad.csbsju.edu","team3", "bccdw");
 			return myConnection;
 		} catch (SQLException | ClassNotFoundException E) { }
 		return null;

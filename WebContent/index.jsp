@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.sql.*,tnweiss.companyDB.*"%>
+<%@ page language="java" import="java.sql.*"%>
 
 <%       
         response.sendRedirect("Login.html");
