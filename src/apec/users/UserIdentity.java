@@ -2,6 +2,7 @@ package apec.users;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -59,11 +60,12 @@ public class UserIdentity implements Serializable{
         Connection con = DatabaseConnection.openDBConnection();
         try {
             ResultSet rs;
-            Statement stmt;
-            String queryString = "Select * from user_identity where username='" + this.getUsername()
-                                + "' and password = '" + this.getPassword() + "'";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(queryString);
+            String queryString = "Select * from user_identity u where u.username=? and u.password = ?";
+            PreparedStatement preparedStmt = con.prepareStatement(queryString);
+            preparedStmt.clearParameters();
+            preparedStmt.setString(1, this.getUsername());
+            preparedStmt.setString(2, this.getPassword());
+            rs = preparedStmt.executeQuery();
             if(rs.next()) {
             	this.isAdmin = rs.getInt("isAdmin");
             }

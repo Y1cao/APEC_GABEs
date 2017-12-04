@@ -5,6 +5,7 @@ package apec.users;
  * @author apec
  */
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -75,11 +76,12 @@ public abstract class CustomerIdentity extends UserIdentity{
         Connection con = DatabaseConnection.openDBConnection();
         try {
             ResultSet rs;
-            Statement stmt;
-            String queryString = "Select * from user_identity u,customer c where u.username='" + this.getUsername()
-                                + "' and u.password = '" + this.getPassword() + "' and u.username = c.username";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(queryString);
+            String queryString = "Select * from user_identity u,customer c where u.username=? and u.password = ? and u.username = c.username";
+            PreparedStatement preparedStmt = con.prepareStatement(queryString);
+            preparedStmt.clearParameters();
+            preparedStmt.setString(1, this.getUsername());
+            preparedStmt.setString(2, this.getPassword());
+            rs = preparedStmt.executeQuery();
             rs.next();
             this.first_name = rs.getString("first_name");
             this.last_name = rs.getString("last_name");
