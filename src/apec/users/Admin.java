@@ -8,5 +8,7 @@ package apec.users;
 @SuppressWarnings("serial")
 public class Admin extends UserIdentity{
 	
-
+	public void setAdmin(UserIdentity user) {
+		this.setUser(user);
+	}
 }

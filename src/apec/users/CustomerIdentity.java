@@ -1,6 +1,17 @@
 package apec.users;
 
-public class CustomerIdentity extends UserIdentity{
+/*
+ * DO NOT PLACE ANY METHODS INSIDE THIS CLASS!!!!!!
+ * @author apec
+ */
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import apec.DatabaseConnection;
+
+@SuppressWarnings("serial")
+public abstract class CustomerIdentity extends UserIdentity{
 	private int customerID;
 	private String email;
 	private String first_name;
@@ -9,6 +20,10 @@ public class CustomerIdentity extends UserIdentity{
 	
 	public CustomerIdentity() {
 		super();
+	}
+	
+	protected void setCustomerIdentity(UserIdentity user) {
+		setUser(user);
 	}
 	
 	public int getCustomerID() {
@@ -50,5 +65,31 @@ public class CustomerIdentity extends UserIdentity{
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
-
+	
+	@Override
+	/*
+	 * This login method will gather all the customers information to store in the customer bean
+	 * @return an integer that means absolutely nothing
+	 */
+	public int login() {
+        Connection con = DatabaseConnection.openDBConnection();
+        try {
+            ResultSet rs;
+            Statement stmt;
+            String queryString = "Select * from user_identity u,customer c where u.username='" + this.getUsername()
+                                + "' and u.password = '" + this.getPassword() + "' and u.username = c.username";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(queryString);
+            rs.next();
+            this.first_name = rs.getString("first_name");
+            this.last_name = rs.getString("last_name");
+            this.phone_number = rs.getString("phone_number");
+            this.customerID = rs.getInt("customerID");
+            this.email = rs.getString("email");
+        } catch (Exception E) {
+            E.printStackTrace();
+        }
+        DatabaseConnection.closeDBConnection();
+		return 0;
+	}
 }
