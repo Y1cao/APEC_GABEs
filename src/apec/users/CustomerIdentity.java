@@ -23,13 +23,14 @@ public class CustomerIdentity extends UserIdentity{
 		super();
 	}
 	
-	public CustomerIdentity(String username, String password, int customerID, String first_name, String last_name, String phone_number) {
+	public CustomerIdentity(String username, String password, int customerID, String first_name, String last_name, String phone_number, String email) {
 		this.username = username;
 		this.password = password;
 		this.customerID = customerID;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.phone_number = phone_number;
+		this.email = email;
 	}
 	
 	protected void setCustomerIdentity(UserIdentity user) {
@@ -102,5 +103,16 @@ public class CustomerIdentity extends UserIdentity{
         }
         DatabaseConnection.closeDBConnection();
 		return 0;
+	}
+	
+	/*
+	 * Used to check whether all the fields have been completely filled out.
+	 */
+	public boolean noNulls() {
+		return this.username != null &&
+				this.password != null &&
+				this.email != null &&
+				this.first_name != null &&
+				this.last_name != null;
 	}
 }

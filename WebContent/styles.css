@@ -10,3 +10,12 @@ table{
 table, th, td{
 	border: 1px solid black;
 }
+
+#AddUser{
+	width: 50%;
+	margin-left:25%;
+}
+
+#AddUserDiv{
+	align: center;
+}
