@@ -30,10 +30,13 @@
 						ArrayList<CustomerIdentity> customers = admin.getCustomers();
 						if(customers == null)
 							response.sendRedirect("../../Login.html"); //go back to the login, the person doesnt have the proper access rights
-						int highest = customers.size();
+						int highest = 0;
 						CustomerIdentity temp;
 						for(int i=0; i<customers.size(); i++){
 							temp = customers.get(i);
+							if(highest < customers.get(i).getCustomerID()){
+								highest = customers.get(i).getCustomerID();
+							}
 							%>
 								<tr>
 									<td><%=temp.getCustomerID()%></td>
@@ -52,7 +55,7 @@
 				<h2>Add User</h2>
 				<form method="post" action="AddUser_action.jsp" name="AddUser">
 					<table id="AddUser">
-						<tr><td>User ID</td><td><input name="customerID" value=<%=highest%> readonly> </td></tr>
+						<tr><td>User ID</td><td><input name="customerID" value=<%=highest+1%> readonly> </td></tr>
 						<tr><td>Username</td><td><input name="username" value=""> </td></tr>
 						<tr><td>First Name</td><td><input name="first_name" value=""> </td></tr>
 						<tr><td>Last Name</td><td><input name="last_name" value=""> </td></tr>

@@ -72,14 +72,13 @@ public class Admin extends UserIdentity{
 				updated = false;
 			}
 			
-			String customer_insert = "INSERT INTO customer (username, customerID, email, first_name, last_name, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+			String customer_insert = "INSERT INTO customer (username, customerID, email, first_name, last_name, phone_number) VALUES (?, customer_id_seq.nextval, ?, ?, ?, ?)";
 			stmt = con.prepareStatement(customer_insert);
 			stmt.setString(1, customer.getUsername());
-			stmt.setInt(2, customer.getCustomerID());
-			stmt.setString(3, customer.getEmail());
-			stmt.setString(4, customer.getFirst_name());
-			stmt.setString(5, customer.getLast_name());
-			stmt.setString(6, customer.getPhone_number());
+			stmt.setString(2, customer.getEmail());
+			stmt.setString(3, customer.getFirst_name());
+			stmt.setString(4, customer.getLast_name());
+			stmt.setString(5, customer.getPhone_number());
 			if(updated && stmt.executeUpdate() == 0) {
 				updated = false;
 				Statement ende = con.createStatement();
